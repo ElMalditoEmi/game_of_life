@@ -8,7 +8,7 @@ struct Grid;
 class Graphics
 {
     public:
-        Graphics(int rows, int columns);
+        Graphics(int rows, int columns, Grid grid);
         ~Graphics();
         void updateCell(int row,
                 int column, int new_state);
