@@ -3,13 +3,18 @@
 
 struct SDL_Window;
 struct SDL_Renderer;
+struct Grid;
 
 class Graphics
 {
     public:
-        Graphics();
+        Graphics(int rows, int columns);
         ~Graphics();
+        void updateCell(int row,
+                int column, int new_state);
     private:
+        int rows;
+        int columns;
         SDL_Window *_window;
         SDL_Renderer *_renderer;
 };

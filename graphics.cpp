@@ -1,10 +1,13 @@
 #include "graphics.h"
 #include <SDL2/SDL.h>
 #include <stdio.h>
-#define W 500 // Window width
+#include "game.h"
+#define W 600 // Window width
 #define H 500 // Window height
 
-Graphics::Graphics(){
+Graphics::Graphics(int rows, int columns){
+    this->rows = rows;
+    this->columns = columns;
     this->_window = SDL_CreateWindow("title",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,W,H,0);
     if(this->_window == NULL){
         printf("Failed to create a window.\n");
@@ -13,8 +16,24 @@ Graphics::Graphics(){
     if(this->_renderer== NULL){
         printf("Failed to create a renderer for the window.\n");
     }
-    SDL_SetRenderDrawColor(this->_renderer,0,100,0,255);
+    // Draws the empty background.
+    SDL_SetRenderDrawColor(this->_renderer,255,255,255,255);
     SDL_RenderClear(this->_renderer);
+
+    // Draws an empty grid
+    SDL_SetRenderDrawColor(this->_renderer,5,5,2,255);
+    int cell_width = W/rows;
+    int cell_height = H/columns;
+    for (int i = 0 ; i < rows ; i++){
+        for (int  j = 0; j < columns; j++){
+            SDL_Rect rect;
+            rect.w=cell_width;
+            rect.h=cell_height;
+            rect.x=i*(cell_width);
+            rect.y=j*(cell_height);
+            SDL_RenderDrawRect(this->_renderer, &rect);
+        }
+    }
     SDL_RenderPresent(this->_renderer);
 }
 

@@ -26,7 +26,7 @@ class Cell{
 
 class Grid{
     public:
-        Grid();
+        Grid(int rows, int columns);
         ~Grid();
         // Checks for cell state, returns 1 in case cell is alive, 0 otherwise.
         int cell_state(int row, int column);
@@ -35,6 +35,7 @@ class Grid{
     private:
         std::vector<std::vector<Cell>> grid;
 };
+
 
 
 #endif
