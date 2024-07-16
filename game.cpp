@@ -13,15 +13,8 @@ Game::Game(){
     grid.switch_cell(0,1);
     grid.switch_cell(5,1);
     grid.switch_cell(4,7);
-    
-    for (int i = 0 ; i < 10 ; i++){
-        for (int j = 0 ; j < 10 ; j++){
-            printf("cell[%d][%d] is: %d",
-                    i,j,grid.cell_state(i,j));
-        }
-    }
 
-    Graphics graphics(10,10,grid);
+    Graphics graphics(10,10,grid);    
     unsigned int a =  SDL_GetTicks();
     unsigned int b = SDL_GetTicks();
     float delta = 0.0;
@@ -34,6 +27,8 @@ Game::Game(){
         }
     }
 }
+
+void Game::Update(){}
 Game::~Game(){
     SDL_Quit();
 }
@@ -44,7 +39,7 @@ Cell::Cell(){
 Cell::~Cell(){}
 
 int Cell::state(){
-    return alive;
+    return this->alive;
 }
 void Cell::switch_state(){
     if (this->alive) {
@@ -67,15 +62,14 @@ Grid::Grid(int rows, int columns){
     }
 }
 int Grid::cell_state(int row, int column){
-    if(row > this->grid.size() || column < this->grid[0].size()){
+    if(row > this->grid.size() || column > this->grid[0].size()){
         return -1;
     }
     Cell cell = this->grid[row][column];
     return cell.state();
 }
 int Grid::switch_cell(int row, int column){
-    if(row > this->grid.size() || column < this->grid[0].size()){
-        printf("i like it here\n");
+    if(row > this->grid.size() || column > this->grid[0].size()){
         return -1;
     }
     this->grid[row][column].switch_state();

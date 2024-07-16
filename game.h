@@ -10,6 +10,7 @@ class Game{
         Game();
         ~Game();
     private:
+        void Update();
 };
 
 class Cell{
@@ -21,7 +22,7 @@ class Cell{
         // switches cell state between alive and death.
         void switch_state();
     private:
-        int alive;
+        int alive = 0;
 };
 
 class Grid{

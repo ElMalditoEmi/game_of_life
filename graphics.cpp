@@ -35,7 +35,6 @@ Graphics::Graphics(int rows, int columns, Grid grid){
             if(grid.cell_state(i,j) == 1){
                 SDL_RenderFillRect(
                         this->_renderer, &rect);
-                printf("AAAAAAAAAAAAAAAAA\n\n\n");
             }
         }
     }
