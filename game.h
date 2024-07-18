@@ -1,17 +1,7 @@
 #ifndef GAME_H
 #define GAME_H
 #include <vector>
-
-/*Game class
- * Holds the game logic.
- */
-class Game{
-    public:
-        Game();
-        ~Game();
-    private:
-        void Update();
-};
+#include "graphics.h"
 
 class Cell{
     public:
@@ -33,10 +23,22 @@ class Grid{
         int cell_state(int row, int column);
         // Switches the cell state between alive and dead.
         int switch_cell(int row, int column);
+        int size();
     private:
         std::vector<std::vector<Cell>> grid;
 };
-
+/*Game class
+ * Holds the game logic.
+ */
+class Game{
+    public:
+        Game();
+        ~Game();
+        void Update(Grid grid, Graphics graphics);
+    private:
+        int count_alive_neighbors(Grid grid, int row, int column);
+        int should_live_die(int actual_state, int neighbors);
+};
 
 
 #endif

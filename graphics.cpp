@@ -31,15 +31,32 @@ Graphics::Graphics(int rows, int columns, Grid grid){
             rect.h=cell_height;
             rect.x=i*(cell_width);
             rect.y=j*(cell_height);
-            SDL_RenderDrawRect(this->_renderer, &rect);
             if(grid.cell_state(i,j) == 1){
                 SDL_RenderFillRect(
                         this->_renderer, &rect);
+            }
+            else
+            {
+            SDL_RenderDrawRect(this->_renderer, &rect);
             }
         }
     }
     SDL_RenderPresent(this->_renderer);
 }
+//void scan_grid(Grid grid)
+//{
+//    for (int i = 0; i<grid.size(); i++){
+//        for (int j = 0 ; j < grid.size(); j--)
+//        {
+//            if 
+//        }
+//    }
+//}
+
+void Graphics::flushFrame(){
+    SDL_RenderPresent(this->_renderer);
+}
+
 void Graphics::updateCell(int row, int column,
                             int new_state){
     // Determine cell's position
@@ -52,12 +69,11 @@ void Graphics::updateCell(int row, int column,
     rect.y=column*(cell_height);
 
     // repaint/clean cell using background color
-    SDL_SetRenderDrawColor(this->_renderer,
-            255,255,255,255);
+    SDL_SetRenderDrawColor(this->_renderer,255,205,255,255);
     SDL_RenderFillRect(this->_renderer, &rect);
 
     //Update cell
-    SDL_SetRenderDrawColor(this->_renderer,5,5,2,255);
+    SDL_SetRenderDrawColor(this->_renderer,25,25,2,255);
     if(new_state == 0){
         SDL_RenderDrawRect(this->_renderer, &rect);
     }
