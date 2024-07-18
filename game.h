@@ -34,9 +34,11 @@ class Game{
     public:
         Game();
         ~Game();
-        void Update(Grid grid, Graphics graphics);
+        void Update();
+        Grid* grid;
+        Graphics* graphics;
     private:
-        int count_alive_neighbors(Grid grid, int row, int column);
+        int count_alive_neighbors(Grid* grid, int row, int column);
         int should_live_die(int actual_state, int neighbors);
 };
 

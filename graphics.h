@@ -8,11 +8,11 @@ struct Grid;
 class Graphics
 {
     public:
-        Graphics(int rows, int columns, Grid grid);
+        Graphics(int rows, int columns, Grid* grid);
         ~Graphics();
         void updateCell(int row,
                 int column, int new_state);
-        void flushFrame(Grid grid);
+        void flushFrame(Grid* grid);
     private:
         int rows;
         int columns;

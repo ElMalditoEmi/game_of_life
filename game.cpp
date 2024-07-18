@@ -12,12 +12,20 @@ Game::Game(){
     printf("SDL error says:\n\t-%s\n",SDL_GetError());
     bool running = true;
     SDL_GetError();
-    Grid grid(ROWS,COLUMNS);
-    grid.switch_cell(5,4);
-    grid.switch_cell(5,5);
-    grid.switch_cell(5,6);
+    grid = new Grid(ROWS,COLUMNS);
+    grid->switch_cell(0,4);
+    grid->switch_cell(1,4);
+    grid->switch_cell(2,4);
+    grid->switch_cell(4,4);
+    grid->switch_cell(4,5);
+    grid->switch_cell(4,6);
 
-    Graphics graphics(COLUMNS,ROWS,grid);    
+    grid->switch_cell(3,6);
+    grid->switch_cell(2,6);
+    grid->switch_cell(5,6);
+    grid->switch_cell(7,6);
+    grid->switch_cell(8,6);
+    graphics = new Graphics(COLUMNS,ROWS,grid); 
     unsigned int a =  SDL_GetTicks();
     unsigned int b = SDL_GetTicks();
     float delta = 0.0;
@@ -34,8 +42,8 @@ Game::Game(){
         // FPS limiter
         a = SDL_GetTicks();
         delta=a-b;
-        if(delta > 1000/1.0){
-            Update(grid, graphics);
+        if(delta > 1000/8.0){
+            Update();
             b = a;
         }
     }
@@ -49,13 +57,13 @@ Game::Game(){
  * 3. If a live cell has 2 or 3 neighbors remains alive.
  * 4. Any dead cell with exactly 3 neighbors will became alive.
  */
-void Game::Update(Grid grid, Graphics graphics)
+void Game::Update()
 {
     std::vector<std::vector<int>> should_switch; // Lists the pair of coordinates of which cells should change
     // For every cell in the grid we evaluate:
-    for (int i = 0; i < grid.size() ; i++){
-        for (int j = 0; j < grid.size(); j++){
-            int actual_state = grid.cell_state(i,j);
+    for (int i = 0; i < grid->size() ; i++){
+        for (int j = 0; j < grid->size(); j++){
+            int actual_state = grid->cell_state(i,j);
             int neighbors = count_alive_neighbors(grid,i,j);
 
             int new_state = should_live_die(actual_state, neighbors);
@@ -70,9 +78,9 @@ void Game::Update(Grid grid, Graphics graphics)
         }
     }
     for (int i = 0 ; i < should_switch.size() ; i++){
-        grid.switch_cell(should_switch[i][0],should_switch[i][1]);
+        grid->switch_cell(should_switch[i][0],should_switch[i][1]);
     }
-    graphics.flushFrame(grid);
+    graphics->flushFrame(grid);
 }
 
 int Game::should_live_die(int actual_state, int neighbors)
@@ -91,23 +99,23 @@ int Game::should_live_die(int actual_state, int neighbors)
     return -1; // This should never be reached
 }
 
-int Game::count_alive_neighbors(Grid grid, int row, int column ){
+int Game::count_alive_neighbors(Grid* grid, int row, int column ){
     int count = 0;
     // grid.cell_state() returns -1 if arguments are out of bounds
 
     // Check the left (previous column)
-    count = (grid.cell_state(row-1,column-1) == 1)? count + 1 : count;
-    count = (grid.cell_state(row,column-1) == 1)? count + 1 : count;
-    count = (grid.cell_state(row+1,column-1) == 1)? count + 1 : count;
+    count = (grid->cell_state(row-1,column-1) == 1)? count + 1 : count;
+    count = (grid->cell_state(row,column-1) == 1)? count + 1 : count;
+    count = (grid->cell_state(row+1,column-1) == 1)? count + 1 : count;
 
     // Check above and bellow (same column)
-    count = (grid.cell_state(row-1,column) == 1)? count + 1 : count;
-    count = (grid.cell_state(row+1,column) == 1)? count + 1 : count;
+    count = (grid->cell_state(row-1,column) == 1)? count + 1 : count;
+    count = (grid->cell_state(row+1,column) == 1)? count + 1 : count;
 
     // Check the right (next column)
-    count = (grid.cell_state(row-1,column+1) == 1)? count + 1 : count;
-    count = (grid.cell_state(row,column+1) == 1)? count + 1 : count;
-    count = (grid.cell_state(row+1,column+1) == 1)? count + 1 : count;
+    count = (grid->cell_state(row-1,column+1) == 1)? count + 1 : count;
+    count = (grid->cell_state(row,column+1) == 1)? count + 1 : count;
+    count = (grid->cell_state(row+1,column+1) == 1)? count + 1 : count;
 
     return count;
 }
@@ -153,7 +161,7 @@ int Grid::cell_state(int row, int column){
     return cell.state();
 }
 int Grid::switch_cell(int row, int column){
-    if(row > this->grid.size() || column > this->grid[0].size()){
+    if(row >= this->grid.size() || column >= this->grid[0].size()){
         return -1;
     }
     this->grid[row][column].switch_state();

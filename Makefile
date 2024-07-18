@@ -1,7 +1,8 @@
 CC=g++
 SRC=*.cpp
 LIBS=-lSDL2
-FLAGS=-O3
+//FLAGS=-O3
+FLAGS=-g
 TARGET=main
 
 all: $(TARGET)

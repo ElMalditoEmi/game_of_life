@@ -5,7 +5,7 @@
 #define W 600 // Window width
 #define H 500 // Window height
 
-Graphics::Graphics(int rows, int columns, Grid grid){
+Graphics::Graphics(int rows, int columns, Grid* grid){
     this->rows = rows;
     this->columns = columns;
     this->_window = SDL_CreateWindow("title",SDL_WINDOWPOS_CENTERED,SDL_WINDOWPOS_CENTERED,W,H,0);
@@ -31,7 +31,7 @@ Graphics::Graphics(int rows, int columns, Grid grid){
             rect.h=cell_height;
             rect.x=i*(cell_width);
             rect.y=j*(cell_height);
-            if(grid.cell_state(i,j) == 1){
+            if(grid->cell_state(i,j) == 1){
                 SDL_RenderFillRect(
                         this->_renderer, &rect);
             }
@@ -44,9 +44,9 @@ Graphics::Graphics(int rows, int columns, Grid grid){
     SDL_RenderPresent(this->_renderer);
 }
 
-void Graphics::flushFrame(Grid grid){
-    rows = grid.size();
-    columns = grid.size();
+void Graphics::flushFrame(Grid* grid){
+    rows = grid->size();
+    columns = grid->size();
     // Draws an empty grid
     SDL_SetRenderDrawColor(this->_renderer,255,255,255,255);
     SDL_RenderClear(this->_renderer);
@@ -60,7 +60,7 @@ void Graphics::flushFrame(Grid grid){
             rect.h=cell_height;
             rect.x=i*(cell_width);
             rect.y=j*(cell_height);
-            if(grid.cell_state(i,j) == 1){
+            if(grid->cell_state(i,j) == 1){
                 SDL_RenderFillRect(
                         this->_renderer, &rect);
             }
