@@ -43,20 +43,35 @@ Graphics::Graphics(int rows, int columns, Grid grid){
     }
     SDL_RenderPresent(this->_renderer);
 }
-//void scan_grid(Grid grid)
-//{
-//    for (int i = 0; i<grid.size(); i++){
-//        for (int j = 0 ; j < grid.size(); j--)
-//        {
-//            if 
-//        }
-//    }
-//}
 
-void Graphics::flushFrame(){
+void Graphics::flushFrame(Grid grid){
+    rows = grid.size();
+    columns = grid.size();
+    // Draws an empty grid
+    SDL_SetRenderDrawColor(this->_renderer,255,255,255,255);
+    SDL_RenderClear(this->_renderer);
+    SDL_SetRenderDrawColor(this->_renderer,5,5,2,255);
+    int cell_width = W/rows;
+    int cell_height = H/columns;
+    for (int i = 0 ; i < rows ; i++){
+        for (int  j = 0; j < columns; j++){
+            SDL_Rect rect;
+            rect.w=cell_width;
+            rect.h=cell_height;
+            rect.x=i*(cell_width);
+            rect.y=j*(cell_height);
+            if(grid.cell_state(i,j) == 1){
+                SDL_RenderFillRect(
+                        this->_renderer, &rect);
+            }
+            else
+            {
+            SDL_RenderDrawRect(this->_renderer, &rect);
+            }
+        }
+    }
     SDL_RenderPresent(this->_renderer);
 }
-
 void Graphics::updateCell(int row, int column,
                             int new_state){
     // Determine cell's position
@@ -70,6 +85,7 @@ void Graphics::updateCell(int row, int column,
 
     // repaint/clean cell using background color
     SDL_SetRenderDrawColor(this->_renderer,255,205,255,255);
+
     SDL_RenderFillRect(this->_renderer, &rect);
 
     //Update cell

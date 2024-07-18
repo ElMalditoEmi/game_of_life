@@ -12,7 +12,7 @@ class Graphics
         ~Graphics();
         void updateCell(int row,
                 int column, int new_state);
-        void flushFrame();
+        void flushFrame(Grid grid);
     private:
         int rows;
         int columns;

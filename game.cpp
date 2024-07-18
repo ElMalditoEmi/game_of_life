@@ -66,16 +66,13 @@ void Game::Update(Grid grid, Graphics graphics)
                 pair.push_back(j);
 
                 should_switch.push_back(pair);
-
-                graphics.updateCell(i,j,new_state); // Since grid and graphics aren't really connected
-                                                    //  we can update the image immeadatly
             }
         }
     }
     for (int i = 0 ; i < should_switch.size() ; i++){
         grid.switch_cell(should_switch[i][0],should_switch[i][1]);
     }
-    graphics.flushFrame();
+    graphics.flushFrame(grid);
 }
 
 int Game::should_live_die(int actual_state, int neighbors)
@@ -83,8 +80,8 @@ int Game::should_live_die(int actual_state, int neighbors)
     bool was_alive = actual_state == 1? true : false;
     if (was_alive){ 
         if (neighbors < 2) { return 0; }       // 1
-        else if (neighbors > 4) {return 0;}    // 2
-        else {return 1;}                                    // 3
+        else if (neighbors >= 4) {return 0;}   // 2
+        else {return 1;}                       // 3
     }
     else if (!was_alive)
     {
@@ -99,18 +96,18 @@ int Game::count_alive_neighbors(Grid grid, int row, int column ){
     // grid.cell_state() returns -1 if arguments are out of bounds
 
     // Check the left (previous column)
-    count = (grid.cell_state(row-1,column-1) == 1)? count += 1 : count;
-    count = (grid.cell_state(row,column-1) == 1)? count += 1 : count;
-    count = (grid.cell_state(row+1,column-1) == 1)? count += 1 : count;
+    count = (grid.cell_state(row-1,column-1) == 1)? count + 1 : count;
+    count = (grid.cell_state(row,column-1) == 1)? count + 1 : count;
+    count = (grid.cell_state(row+1,column-1) == 1)? count + 1 : count;
 
     // Check above and bellow (same column)
-    count = (grid.cell_state(row-1,column) == 1)? count += 1 : count;
-    count = (grid.cell_state(row+1,column) == 1)? count += 1 : count;
+    count = (grid.cell_state(row-1,column) == 1)? count + 1 : count;
+    count = (grid.cell_state(row+1,column) == 1)? count + 1 : count;
 
     // Check the right (next column)
-    count = (grid.cell_state(row-1,column+1) == 1)? count += 1 : count;
-    count = (grid.cell_state(row,column+1) == 1)? count += 1 : count;
-    count = (grid.cell_state(row+1,column+1) == 1)? count += 1 : count;
+    count = (grid.cell_state(row-1,column+1) == 1)? count + 1 : count;
+    count = (grid.cell_state(row,column+1) == 1)? count + 1 : count;
+    count = (grid.cell_state(row+1,column+1) == 1)? count + 1 : count;
 
     return count;
 }
