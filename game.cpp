@@ -59,8 +59,8 @@ void Game::Update()
 {
     std::vector<std::vector<int>> should_switch; // Lists the pair of coordinates of which cells should change
     // For every cell in the grid we evaluate:
-    for (int i = 0; i < grid->size() ; i++){
-        for (int j = 0; j < grid->size(); j++){
+    for (int i = 0; i < grid->n_rows() ; i++){
+        for (int j = 0; j < grid->n_cols(); j++){
             int actual_state = grid->cell_state(i,j);
             int neighbors = count_alive_neighbors(grid,i,j);
 
@@ -152,23 +152,30 @@ Grid::Grid(int rows, int columns){
     }
 }
 int Grid::cell_state(int row, int column){
-    if(row >= this->grid.size() || column >= this->grid[0].size() || row < 0 || column < 0){
+    if(row >= this->n_rows() || column >= this->n_cols() || row < 0 || column < 0){
         return -1;
     }
     Cell cell = this->grid[row][column];
     return cell.state();
 }
 int Grid::switch_cell(int row, int column){
-    if(row >= this->grid.size() || column >= this->grid[0].size()){
+    if(row >= this->n_rows() || column >= this->n_cols()){
         return -1;
     }
     this->grid[row][column].switch_state();
     return 0;
 }
 
-int Grid::size(){
+int Grid::n_cols(){
+    return this->grid[0].size();
+}
+int Grid::n_rows(){
     return this->grid.size();
 }
+
+//int Grid::size(){
+//    return this->grid.size();
+//}
 
 Grid::~Grid(){}
 

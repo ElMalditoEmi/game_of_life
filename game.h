@@ -23,7 +23,9 @@ class Grid{
         int cell_state(int row, int column);
         // Switches the cell state between alive and dead.
         int switch_cell(int row, int column);
-        int size();
+        //int size(); replaced by n_cols and n_rows
+        int n_cols();
+        int n_rows();
     private:
         std::vector<std::vector<Cell>> grid;
 };

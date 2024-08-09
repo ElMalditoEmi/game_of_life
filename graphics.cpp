@@ -45,8 +45,8 @@ Graphics::Graphics(int rows, int columns, Grid* grid){
 }
 
 void Graphics::flushFrame(Grid* grid){
-    rows = grid->size();
-    columns = grid->size();
+    rows = grid->n_rows();
+    columns = grid->n_cols();
     // Draws an empty grid
     SDL_SetRenderDrawColor(this->_renderer,255,255,255,255);
     SDL_RenderClear(this->_renderer);
