@@ -32,7 +32,7 @@ class Grid{
  */
 class Game{
     public:
-        Game();
+        Game(int rows, int columns);
         ~Game();
         void Update();
         Grid* grid;

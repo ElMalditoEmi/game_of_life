@@ -3,16 +3,14 @@
 #include <SDL2/SDL.h>
 #include <vector>
 
-#define ROWS 10
-#define COLUMNS 10
-Game::Game(){
+Game::Game(int rows, int columns){
     if(SDL_Init(SDL_INIT_EVERYTHING)){
         printf("Couldn't init SDL video.\n");
     }
     printf("SDL error says:\n\t-%s\n",SDL_GetError());
     bool running = true;
     SDL_GetError();
-    grid = new Grid(ROWS,COLUMNS);
+    grid = new Grid(rows,columns);
     grid->switch_cell(0,4);
     grid->switch_cell(1,4);
     grid->switch_cell(2,4);
@@ -25,7 +23,7 @@ Game::Game(){
     grid->switch_cell(5,6);
     grid->switch_cell(7,6);
     grid->switch_cell(8,6);
-    graphics = new Graphics(COLUMNS,ROWS,grid); 
+    graphics = new Graphics(rows,columns,grid); 
     unsigned int a =  SDL_GetTicks();
     unsigned int b = SDL_GetTicks();
     float delta = 0.0;
